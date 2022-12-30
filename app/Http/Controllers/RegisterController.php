@@ -9,7 +9,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use  Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
+use App\Mail\NewUser;
 
 class RegisterController extends Controller
 {
@@ -37,6 +39,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'ust_id'=>2,
         ]);
+        Mail::to('carlos.sergio@escolar.ifrn.edu.br')->send(new NewUser($user));
 
         event(new Registered($user));
         return redirect('/teacher/register');

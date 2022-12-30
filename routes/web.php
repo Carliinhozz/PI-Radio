@@ -3,7 +3,10 @@
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\InstumentsController;
 use App\Http\Controllers\RegisterController;
+use App\Mail\NewUser;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +30,6 @@ Route::get('/dashboard', function () {
 Route::get('/perfil', function () {
     return view('authenticated.perfil');
 })->middleware(['auth'])->name('perfil');
-
-// Route::get('/borrow', function () {
-//     return view('authenticated.borrow');
-// })->middleware(['auth'])->name('borrow');
 Route::get('/borrow',[BorrowController::class, 'index'] )->middleware(['auth'])->name('borrow');
 Route::post('/borrow',[BorrowController::class, 'list'] )->middleware(['auth'])->name('borrow');
 
@@ -47,5 +46,9 @@ Route::post('/instruments/models',[InstumentsController::class, 'modelCreate'])-
 
 Route::get('/teacher/register', [RegisterController::class, 'teacherRegisterIndex']);
 Route::post('/teacher/register', [RegisterController::class, 'storeTeacher']);
+
+Route::get('/email', function(){
+    
+});
 require __DIR__.'/auth.php';
 

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\InstModel;
 use App\Models\Instrument;
+use App\Notifications\NewInstrument;
+use App\Notifications\NewModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class InstumentsController extends Controller
@@ -25,6 +28,7 @@ class InstumentsController extends Controller
             $inst->mod_id=$request->model;
             $inst->save();
             $models=InstModel::all();
+            Auth::user()->notify(new NewInstrument($inst));
             return view('authenticated.instruments.create',['models'=>$models],);
         
         }
@@ -39,6 +43,7 @@ class InstumentsController extends Controller
             $model= new InstModel;
             $model->model=$request->model;
             $model->save();
+            Auth::user()->notify(new NewModel($model));
             return view('authenticated.instruments.models');
             exit();
     
